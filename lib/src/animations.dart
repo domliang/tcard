@@ -4,24 +4,34 @@ import 'swip_info.dart';
 
 /// Card Sizes
 class CardSizes {
+  static int paddingX = 22;
+  static int paddingY = 18;
+  static initPadding(int x, int y) {
+    paddingX = x;
+    paddingY = y;
+  }
+
   static Size front(BoxConstraints constraints) {
-    return Size(constraints.maxWidth * 0.9, constraints.maxHeight * 0.9);
+    return Size(
+        constraints.maxWidth - paddingX, constraints.maxHeight - paddingY);
   }
 
   static Size middle(BoxConstraints constraints) {
-    return Size(constraints.maxWidth * 0.85, constraints.maxHeight * 0.9);
+    return Size(constraints.maxWidth - paddingX - 8,
+        constraints.maxHeight - paddingY - 6);
   }
 
   static Size back(BoxConstraints constraints) {
-    return Size(constraints.maxWidth * 0.8, constraints.maxHeight * .9);
+    return Size(constraints.maxWidth - paddingX - 8,
+        constraints.maxHeight - paddingY - 6);
   }
 }
 
 /// Card Alignments
 class CardAlignments {
-  static Alignment front = Alignment(0.0, -0.5);
+  static Alignment front = Alignment(0.0, 0.0);
   static Alignment middle = Alignment(0.0, 0.0);
-  static Alignment back = Alignment(0.0, 0.5);
+  static Alignment back = Alignment(0.0, 0.0);
 }
 
 /// Card Forward Animations
