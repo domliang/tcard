@@ -10,6 +10,8 @@ typedef ForwardCallback(int index, SwipInfo info);
 typedef BackCallback(int index, SwipInfo info);
 typedef EndCallback();
 
+typedef OnSwipeCallback(double rotate);
+
 /// 卡片列表
 class TCard extends StatefulWidget {
   /// 卡片尺寸
@@ -45,6 +47,9 @@ class TCard extends StatefulWidget {
   /// 上下边距
   final int paddingY;
 
+  /// swipe回调
+  final OnSwipeCallback onSwipe;
+
   const TCard({
     @required this.cards,
     this.controller,
@@ -57,6 +62,7 @@ class TCard extends StatefulWidget {
     this.size = const Size(380, 400),
     this.paddingX = 22,
     this.paddingY = 18,
+    this.onSwipe,
   })  : assert(cards != null),
         assert(cards.length > 0);
 
@@ -121,6 +127,8 @@ class TCardState extends State<TCard> with TickerProviderStateMixin {
         child: rotate,
       );
     } else {
+      // print('front card $_frontCardRotation');
+      if (widget.onSwipe != null) widget.onSwipe(_frontCardRotation);
       return Align(
         alignment: _frontCardAlignment,
         child: rotate,
