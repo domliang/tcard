@@ -10,7 +10,18 @@ typedef ForwardCallback(int index, SwipInfo info);
 typedef BackCallback(int index, SwipInfo info);
 typedef EndCallback();
 
-typedef OnSwipeCallback(double rotate);
+typedef OnSwipeCallback(SwipeTurnHorizonal swipeTurnHorizonal);
+
+enum SwipeTurnVertical {
+  top,
+  botoom,
+}
+
+enum SwipeTurnHorizonal {
+  left,
+  right,
+  mid,
+}
 
 /// 卡片列表
 class TCard extends StatefulWidget {
@@ -50,6 +61,10 @@ class TCard extends StatefulWidget {
   /// swipe回调
   final OnSwipeCallback onSwipe;
 
+  /// 翻拍方向
+
+  final SwipeTurnVertical swipeTurnVertical;
+
   const TCard({
     @required this.cards,
     this.controller,
@@ -62,6 +77,7 @@ class TCard extends StatefulWidget {
     this.size = const Size(380, 400),
     this.paddingX = 22,
     this.paddingY = 18,
+    this.swipeTurnVertical = SwipeTurnVertical.botoom,
     this.onSwipe,
   })  : assert(cards != null),
         assert(cards.length > 0);
@@ -128,7 +144,15 @@ class TCardState extends State<TCard> with TickerProviderStateMixin {
       );
     } else {
       // print('front card $_frontCardRotation');
-      if (widget.onSwipe != null) widget.onSwipe(_frontCardRotation);
+      if (widget.onSwipe != null)
+        widget.onSwipe(widget.swipeTurnVertical == SwipeTurnVertical.botoom &&
+                    _frontCardRotation > 0 ||
+                widget.swipeTurnVertical == SwipeTurnVertical.top &&
+                    _frontCardRotation < 0
+            ? SwipeTurnHorizonal.left
+            : _frontCardRotation != 0
+                ? SwipeTurnHorizonal.right
+                : SwipeTurnHorizonal.mid);
       return Align(
         alignment: _frontCardAlignment,
         child: rotate,
@@ -357,7 +381,9 @@ class TCardState extends State<TCard> with TickerProviderStateMixin {
     );
 
     // 设置最前面卡片的旋转角度
-    _frontCardRotation = _frontCardAlignment.x;
+    _frontCardRotation = widget.swipeTurnVertical == SwipeTurnVertical.botoom
+        ? -_frontCardAlignment.x
+        : _frontCardAlignment.x;
     setState(() {});
   }
 
