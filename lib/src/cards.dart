@@ -65,6 +65,10 @@ class TCard extends StatefulWidget {
 
   final SwipeTurnVertical swipeTurnVertical;
 
+  /// 是否层叠
+
+  final bool isStacked;
+
   const TCard({
     @required this.cards,
     this.controller,
@@ -79,6 +83,7 @@ class TCard extends StatefulWidget {
     this.paddingY = 18,
     this.swipeTurnVertical = SwipeTurnVertical.botoom,
     this.onSwipe,
+    this.isStacked = true,
   })  : assert(cards != null),
         assert(cards.length > 0);
 
@@ -410,6 +415,7 @@ class TCardState extends State<TCard> with TickerProviderStateMixin {
   @override
   void initState() {
     CardSizes.initPadding(widget.paddingX, widget.paddingY);
+    CardAlignments.init(widget.isStacked);
     super.initState();
 
     // 初始化所有传入的卡片

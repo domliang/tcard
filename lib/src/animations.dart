@@ -22,13 +22,21 @@ class CardSizes {
   }
 
   static Size back(BoxConstraints constraints) {
-    return Size(constraints.maxWidth - paddingX - 8,
+    return Size(constraints.maxWidth - paddingX - 16,
         constraints.maxHeight - paddingY - 6);
   }
 }
 
 /// Card Alignments
 class CardAlignments {
+  static init(bool isStacked) {
+    if (isStacked) {
+      front = Alignment(0.0, 0.0);
+      middle = Alignment(0.0, 1.0);
+      back = Alignment(0.0, 2.0);
+    }
+  }
+
   static Alignment front = Alignment(0.0, 0.0);
   static Alignment middle = Alignment(0.0, 0.0);
   static Alignment back = Alignment(0.0, 0.0);
